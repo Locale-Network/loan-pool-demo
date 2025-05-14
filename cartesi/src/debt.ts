@@ -12,23 +12,22 @@ export function calculateRequiredInterestRate(
   maxInterestRate: number = 10
 ): number {
   // Group transactions by month and calculate NOI for each month
-  const noiByMonth = transactions.reduce((acc, tx) => {
-    const date = new Date(tx.date);
-    const monthKey = `${date.getFullYear()}-${String(
-      date.getMonth() + 1
-    ).padStart(2, "0")}`;
-    acc[monthKey] = (acc[monthKey] || 0) + tx.amount;
-    return acc;
-  }, {} as Record<string, number>);
+  const noiByMonth = transactions.reduce(
+    (acc, tx) => {
+      const date = new Date(tx.date);
+      const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+      acc[monthKey] = (acc[monthKey] || 0) + tx.amount;
+      return acc;
+    },
+    {} as Record<string, number>
+  );
 
   // Calculate average monthly NOI instead of using most recent month
   const months = Object.keys(noiByMonth);
   if (months.length === 0) {
     return minInterestRate * 100;
   }
-  const monthlyNOI =
-    Object.values(noiByMonth).reduce((sum, noi) => sum + noi, 0) /
-    months.length;
+  const monthlyNOI = Object.values(noiByMonth).reduce((sum, noi) => sum + noi, 0) / months.length;
 
   if (!monthlyNOI || monthlyNOI < 0) {
     return minInterestRate * 100;
@@ -46,8 +45,7 @@ export function calculateRequiredInterestRate(
     const monthlyRate = rate / 12;
     const numberOfPayments = termInMonths;
     const monthlyPayment =
-      (loanAmount *
-        (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments))) /
+      (loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments))) /
       (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
 
     // Calculate total payments over the loan term
