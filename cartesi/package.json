@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "TypeScript DApp",
   "dependencies": {
+    "decimal.js": "^10.5.0",
     "ethers": "^6.13.4",
     "openapi-fetch": "^0.7",
     "viem": "^1"
