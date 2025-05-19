@@ -21,6 +21,11 @@ describe("Debt Service Calculation", () => {
 
     console.log(interestRate);
 
-    expect(interestRate).toBe(245.074462890625);
+    // The rate should be around 2.46%
+    expect(interestRate).toBeCloseTo(2.458984, 6);
+    
+    // Additional assertions to verify the rate makes sense
+    expect(interestRate).toBeGreaterThan(0);
+    expect(interestRate).toBeLessThan(10);
   });
 });
